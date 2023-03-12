@@ -1,0 +1,41 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>
+      Add Distributor
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="ion-padding">
+    <form [formGroup]="addDistributorForm" (ngSubmit)="addDistributor()">
+      <ion-list>
+
+        <ion-item>
+          <ion-label>Please Select Accounts</ion-label>
+          <!-- (ngModelChange)="userChange($event)" -->
+          <ion-select name="account" formControlName="account">
+            <ion-select-option *ngFor="let userAccount of userAccounts" [value]="userAccount.address">{{userAccount.name}}</ion-select-option>
+            <!-- <ion-select-option value="distributor">Accounts 2 </ion-select-option>
+            <ion-select-option value="consumer">Accounts 3</ion-select-option> -->
+          </ion-select>
+        </ion-item>
+
+        <ion-item class="ion-margin-bottom">
+          <ion-label position="floating">Order Number</ion-label>
+          <ion-input type="text" formControlName="orderNumber"></ion-input>
+        </ion-item>
+        <small *ngIf="addDistributorForm.get('orderNumber').invalid && (addDistributorForm.get('orderNumber').dirty ||addDistributorForm.get('orderNumber').touched )">
+          <small *ngIf="(addDistributorForm.get('orderNumber')).errors?.required">Oreder number is required</small>
+          <small *ngIf="(addDistributorForm.get('orderNumber')).errors?.minlength">Please enter more than 4 character</small>
+        </small>
+
+        <ion-item class="ion-float-right" lines="none">
+          <ion-button color="primary" [disabled]="!addDistributorForm.valid" type="submit">Save Details</ion-button>
+          <ion-button color="primary" (click)="onReset()">Reset Form</ion-button>
+          <ion-button color="primary" (click)="goBack()">Back</ion-button>
+        </ion-item>
+      </ion-list>
+    </form>
+  </div>
+</ion-content>

@@ -1,0 +1,103 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Actions
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="action-page" *ngIf="actionPageDisaply">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Actions</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-item>
+    <ion-label>Please Select User Role</ion-label>
+    <ion-select name="actions" [formControl]="actions" (onclick)="valueChange($event)">
+      <ion-select-option value="producer">Producer</ion-select-option>
+      <ion-select-option value="distributor">Distributor </ion-select-option>
+      <ion-select-option value="consumer">Consumer</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <div *ngIf="actions.value === 'producer'">
+    <ion-card class="btn-action">
+      <ion-card-content>
+        <ion-card-title (click)="addProductForm()">Add Product</ion-card-title>
+      </ion-card-content>
+    </ion-card>
+
+  <ion-card class="btn-action">
+    <ion-card-content>
+      <ion-card-title (click)="viewProduct()">View Product</ion-card-title>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="btn-action">
+    <ion-card-content>
+      <ion-card-title (click)="addDistributor()">Add Distributor</ion-card-title>
+    </ion-card-content>
+  </ion-card>
+  </div>
+
+  <div *ngIf="actions.value === 'distributor'">
+    <ion-card class="btn-action">
+      <ion-card-content>
+        <ion-card-title>View Order</ion-card-title>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="btn-action">
+      <ion-card-content>
+        <ion-card-title (click)="viewDeliverOrderForm()">Deliver Order</ion-card-title>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf="actions.value === 'consumer'">
+  <ion-card class="btn-action">
+    <ion-card-content>
+      <ion-card-title (click)="createOrderFrom()">Create Order</ion-card-title>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="btn-action">
+    <ion-card-content>
+      <ion-card-title>View Order</ion-card-title>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="btn-action">
+    <ion-card-content>
+      <ion-card-title (click)="viewHistoryForm()">Order/ Product History</ion-card-title>
+    </ion-card-content>
+  </ion-card>
+</div>
+
+</ion-content>
+
+<ion-content *ngIf="addProductFormDisplay">
+  <app-add-product-form (addProductObj)="AddProductEvent($event)"></app-add-product-form>
+</ion-content>
+
+<ion-content *ngIf="viewProductDisplay">
+  <app-view-product (viewProductObj)="ViewProductEvent($event)"></app-view-product>
+</ion-content>
+
+<ion-content *ngIf="viewHistoryFormDisplay">
+  <app-view-order-history (viewHistoryObj)="ViewHistoryEvent($event)"></app-view-order-history>
+</ion-content>
+
+<ion-content *ngIf="viewDeliverOrderFormDisplay">
+  <app-deliver-order-form (viewHistoryObj)="ViewDeliverOrderEvent($event)"></app-deliver-order-form>
+</ion-content>
+
+<ion-content *ngIf="createOrderDisplay">
+  <app-create-order-form (createOrderObj)="createOrderEvent($event)"></app-create-order-form>
+</ion-content>
+
+<ion-content *ngIf="addDistributorDisplay">
+  <app-add-distributor (addDistributorObj)="AddDistributorEvent($event)"></app-add-distributor>
+</ion-content>
