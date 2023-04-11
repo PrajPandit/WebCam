@@ -1,6 +1,4 @@
-<div class="container">
-  
-    <!-- <h1>Angular Webcam Capture Image from Camera - ItSolutionStuff.com</h1> -->
+<!-- <div class="container">  
   
     <div class="row">
         <div class="col-md-6">
@@ -17,5 +15,42 @@
             <img src="{{ captureImage }}" height="300px">
   
         </div>
+
+     
+        </div>
     </div>
-</div>
+
+    <div class="row">
+        <div class="col-md-6">
+  
+            <div id="loadingResults">Your image is currently being processed...</div>
+           <div class="col-md-3">
+
+            <img src="{{ captureImage }}" height="300px">
+           </div>
+  
+    </div>
+</div> -->
+
+<ion-card>
+  <!-- <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" /> -->
+  <ion-card-header>
+    <ion-card-title>Fake Currency</ion-card-title>
+    <ion-card-subtitle>Scan Front/ back of currency</ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content>
+    <webcam
+      [trigger]="triggerObservable"
+      (imageCapture)="handleImage($event)"
+    ></webcam>
+
+    <button class="btn btn-success" (click)="triggerSnapshot();">Scan</button>
+  </ion-card-content>
+
+  <ion-card-content>
+    <div id="loadingResults">Your image is currently being processed...</div>
+
+    <img src="{{ captureImage }}" height="300px" />
+  </ion-card-content>
+</ion-card>

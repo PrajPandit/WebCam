@@ -1,7 +1,7 @@
 {
-  "name": "product-tracing",
+  "name": "fake-currency",
   "version": "0.0.1",
-  "author": "Ionic Framework",
+  "author": "Tietoevry",
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",
