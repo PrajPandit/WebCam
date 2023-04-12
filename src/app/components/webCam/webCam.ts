@@ -1,61 +1,68 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
-  
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 @Component({
   selector: 'app-webcam',
   templateUrl: './webCam.html',
-  styleUrls: ['./webCam.scss']
+  styleUrls: ['./webCam.scss'],
 })
 export class WebCamComponent implements OnInit {
-  
-    private trigger=  new Subject();
+  public webcamImage: WebcamImage;
+  public captureImage = '';
 
-    public webcamImage!: WebcamImage;
-    private nextWebcam = new Subject();
+  private trigger = new Subject();
+  private nextWebcam = new Subject();
 
-    captureImage  = '';
-  
-    ngOnInit() {}
-  
-    /*------------------------------------------
-    --------------------------------------------
-    triggerSnapshot()
-    --------------------------------------------
-    --------------------------------------------*/
-    public triggerSnapshot(): void {
-        this.trigger.next();
-    }
-  
-    /*------------------------------------------
-    --------------------------------------------
-    handleImage()
-    --------------------------------------------
-    --------------------------------------------*/
-    public handleImage(webcamImage: WebcamImage): void {
-        this.webcamImage = webcamImage;
-        this.captureImage = webcamImage!.imageAsDataUrl;
-        console.info('received webcam image', this.captureImage);
-    }
-  
-    /*------------------------------------------
-    --------------------------------------------
-    triggerObservable()
-    --------------------------------------------
-    --------------------------------------------*/
-    public get triggerObservable(): Observable<any> {
+  constructor(private http: HttpClient) {}
 
-        return this.trigger.asObservable();
-    }
-  
-    /*------------------------------------------
-    --------------------------------------------
-    nextWebcamObservable()
-    --------------------------------------------
-    --------------------------------------------*/
-    public get nextWebcamObservable(): Observable<any> {
+  ngOnInit() {}
+  public getSnapshot(): void {
+    this.trigger.next();
+  }
+  public captureImg(webcamImage: WebcamImage): void {
+    this.webcamImage = webcamImage;
+    this.captureImage = webcamImage?.imageAsDataUrl;
+    localStorage.setItem('imageDetails', this.captureImage);
+    const a = localStorage.getItem('imageDetails');
+    console.log(a);
+  }
+  public invokeObservable(): Observable<any> {
+    return this.trigger.asObservable();
+  }
+  public nextWebcamObservable(): Observable<any> {
+    return this.nextWebcam.asObservable();
+  }
 
-        return this.nextWebcam.asObservable();
-    }
- 
+  fetchDetailsForCapturedImage() {
+    const headers = new HttpHeaders();
+    const myFormData = new FormData();
+
+    headers.set('Content-Type', 'multipart/form-data');
+    headers.set('Accept', 'application/json');
+
+    headers.set('Access-Control-Allow-Methods', 'Content-Type');
+    headers.set('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
+    headers.set('Access-Control-Allow-Origin', 'http://localhost:4200/');
+    // headers.set('Access-Control-Allow-Methods', 'Authorization');
+
+    myFormData.append('image', this.captureImage);
+    const req = this.http.post(
+      'https://imageanalysisapi.azurewebsites.net/ImageAnalysis',
+      myFormData,
+      {
+        headers,
+        reportProgress: true,
+        responseType: 'json',
+      }
+    );
+    //.subscribe((data) => {
+    //Check success message
+    //  console.log(data);
+    // });
+    return req.subscribe((data) => {
+      console.log(data);
+    });
+  }
 }

@@ -9,7 +9,6 @@ import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppConfigurationService } from './services/app.configuration.service';
 import { AbiService } from './abi.service';
-
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

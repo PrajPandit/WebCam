@@ -18,25 +18,55 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-card>
-  <!-- <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" /> -->
-  <ion-card-header>
-    <ion-card-title>Fake Currency</ion-card-title>
-    <ion-card-subtitle>Scan Front/ back of currency</ion-card-subtitle>
-  </ion-card-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-card class="ion-padding">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Scan Front/ back of currency</ion-card-title>
+            </ion-card-header>
 
-  <ion-card-content>
-    <webcam
-      [trigger]="triggerObservable"
-      (imageCapture)="handleImage($event)"
-    ></webcam>
+            <ion-card-content>
+              <webcam
+                [trigger]="invokeObservable()"
+                (imageCapture)="captureImg($event)"
+              ></webcam>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
 
-    <button class="btn btn-success" (click)="triggerSnapshot();">Scan</button>
-  </ion-card-content>
+        <ion-col size="1"></ion-col>
 
-  <ion-card-content>
-    <div id="loadingResults">Your image is currently being processed...</div>
+        <ion-col>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>
+                Your clicked image will be shown here...
+              </ion-card-title>
+            </ion-card-header>
 
-    <img src="{{ captureImage }}" height="300px" />
-  </ion-card-content>
-</ion-card>
+            <ion-card-content>
+              <img src="{{ captureImage }}" height="50%" width="auto" />
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>
+      <div>
+        <ion-button (click)="getSnapshot()">
+          Scan Currency
+        </ion-button>
+        <ion-button  (click)="fetchDetailsForCapturedImage()">
+          Process Image
+        </ion-button>
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>
