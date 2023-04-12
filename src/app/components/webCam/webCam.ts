@@ -3,7 +3,7 @@ import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
   
 @Component({
-  selector: 'webCam-page',
+  selector: 'app-webcam',
   templateUrl: './webCam.html',
   styleUrls: ['./webCam.scss']
 })

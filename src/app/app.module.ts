@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppConfigurationService } from './services/app.configuration.service';
 import { AbiService } from './abi.service';
+import { HeaderPageModule } from './components/header/header.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,6 +20,7 @@ import { AbiService } from './abi.service';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    HeaderPageModule,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

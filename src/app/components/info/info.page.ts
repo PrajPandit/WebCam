@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 // import { ProductsService } from '../../products.service';
 
 @Component({
-  selector: 'app-product-details',
+  selector: 'app-info',
   templateUrl: 'info.page.html',
   styleUrls: ['info.page.scss']
 })
