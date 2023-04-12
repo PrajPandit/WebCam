@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { HeaderPage } from './components/header/header.page';
 
 const routes: Routes = [
   {
