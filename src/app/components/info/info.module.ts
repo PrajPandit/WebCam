@@ -3,10 +3,10 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ProductDetailsComponent } from './product-details.page';
+import { InfoComponent } from './info.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
-import { ProductDetailsRoutingModule } from './product-details-routing.module';
+import { ProductDetailsRoutingModule } from './info-routing.module';
 
 @NgModule({
   imports: [
@@ -14,9 +14,9 @@ import { ProductDetailsRoutingModule } from './product-details-routing.module';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    RouterModule.forChild([{ path: '', component: ProductDetailsComponent }]),
+    RouterModule.forChild([{ path: '', component: InfoComponent }]),
     ProductDetailsRoutingModule,
   ],
-  declarations: [ProductDetailsComponent]
+  declarations: [InfoComponent]
 })
-export class ProductDetailsPageModule {}
+export class InfoPageModule {}

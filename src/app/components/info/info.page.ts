@@ -3,11 +3,10 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-product-details',
-  templateUrl: 'product-details.page.html',
-  styleUrls: ['product-details.page.scss']
+  templateUrl: 'info.page.html',
+  styleUrls: ['info.page.scss']
 })
-export class ProductDetailsComponent implements OnInit{
-  article;
+export class InfoComponent implements OnInit{
   constructor() {
     // this.article = this.productsService.currentArticle;
   }

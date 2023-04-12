@@ -10,16 +10,22 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppConfigurationService } from './services/app.configuration.service';
 import { AbiService } from './abi.service';
 
-
-
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, ReactiveFormsModule, ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+  ],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AppConfigurationService,
-    AbiService],
+    AbiService,
+  ],
   bootstrap: [AppComponent],
-  exports: []
+  exports: [],
 })
 export class AppModule {}

@@ -14,7 +14,7 @@ export class ActionPage{
   viewHistoryFormDisplay = false;
   viewDeliverOrderFormDisplay= false;
   createOrderDisplay = false;
-  addDistributorDisplay = false
+  addDistributorDisplay = false;
   actions = new FormControl();
 
   constructor() {}
@@ -128,6 +128,6 @@ export class ActionPage{
   }
 
   valueChange(event){
-    debugger
+    debugger;
   }
 }
