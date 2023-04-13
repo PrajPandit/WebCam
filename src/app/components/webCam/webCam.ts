@@ -39,24 +39,23 @@ export class WebCamComponent implements OnInit {
     const headers = new HttpHeaders();
     const myFormData = new FormData();
 
-    headers.set('Content-Type', 'multipart/form-data');
-    headers.set('Accept', 'application/json');
+    const devUrl = 'https://localhost:7209/api/ImageAnalysis';
+    // const prodUrl = 'https://imageanalysisapi.azurewebsites.net/ImageAnalysis';
+
+    headers.set('Content-Type', 'text/plain');
+    headers.set('Accept', 'application/xml');
 
     headers.set('Access-Control-Allow-Methods', 'Content-Type');
     headers.set('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
-    headers.set('Access-Control-Allow-Origin', 'http://localhost:4200/');
+    headers.set('Access-Control-Allow-Origin', 'https://localhost:4200/');
     // headers.set('Access-Control-Allow-Methods', 'Authorization');
 
     myFormData.append('image', this.captureImage);
-    const req = this.http.post(
-      'https://imageanalysisapi.azurewebsites.net/ImageAnalysis',
-      myFormData,
-      {
-        headers,
-        reportProgress: true,
-        responseType: 'json',
-      }
-    );
+    const req = this.http.post(devUrl, this.captureImage, {
+      headers,
+      reportProgress: true,
+      responseType: 'json',
+    });
     //.subscribe((data) => {
     //Check success message
     //  console.log(data);
