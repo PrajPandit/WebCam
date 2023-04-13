@@ -18,7 +18,7 @@ export class WebCamComponent implements OnInit {
   private nextWebcam = new Subject();
 
   private localApiUrl = 'https://localhost:7209/api/ImageAnalysis';
-  private serverApiUrl = 'https://imageanalysisapi.azurewebsites.net/api/ImageAnalysis';
+  // private serverApiUrl = 'https://imageanalysisapi.azurewebsites.net/api/ImageAnalysis';
 
   constructor(private http: HttpClient) {}
 
@@ -72,15 +72,15 @@ export class WebCamComponent implements OnInit {
       // });
       return req.subscribe((data: any) => {
         if (data.success) {
-          // this.toaster.success(data.message);
+          //this.toaster.success(data.message);
         }
 
         if (!data.success) {
-          // this.toaster.error(data.message);
+          //this.toaster.error(data.message);
         }
       });
     } else {
-      // this.toaster.error('Please scan image first. !!!');
+     // this.toaster.error('Please scan image first. !!!');
     }
   }
 
