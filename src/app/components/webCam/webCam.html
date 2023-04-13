@@ -63,9 +63,15 @@
         <ion-button (click)="getSnapshot()">
           Scan Currency
         </ion-button>
+
+        <ion-button (click)="saveImage($event)">
+          Save Image locally
+        </ion-button>
+
         <ion-button  (click)="onFetchDetailsForCapturedImage()">
           Process Image
         </ion-button>
+      
       </div>
     </ion-title>
   </ion-toolbar>
