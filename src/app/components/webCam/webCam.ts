@@ -3,6 +3,7 @@ import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+import { IImageInput } from 'src/app/modal/imageInput';
 
 @Component({
   selector: 'app-webcam',
@@ -15,47 +16,47 @@ export class WebCamComponent implements OnInit {
 
   private trigger = new Subject();
   private nextWebcam = new Subject();
+  private input: IImageInput = { imagePath: 'C:\\Images\\500front.png' };
 
-  localApiUrl = 'https://localhost:7209/api/ImageAnalysis';
-  serverApiUrl = 'https://imageanalysisapi.azurewebsites.net/api/ImageAnalysis';
-  base64img: string;
+  private localApiUrl = 'https://localhost:7209/api/ImageAnalysis';
+  private serverApiUrl =
+    'https://imageanalysisapi.azurewebsites.net/api/ImageAnalysis';
+  private base64img: string = null;
 
   constructor(private http: HttpClient, private toastr: ToastrService) {}
 
   ngOnInit() {}
+
   public getSnapshot(): void {
     this.trigger.next();
   }
-  public captureImg(webcamImage: WebcamImage): void {
+  public onCaptureImgClick(webcamImage: WebcamImage): void {
     this.webcamImage = webcamImage;
     this.captureImage = webcamImage?.imageAsDataUrl;
     this.base64img = btoa(this.captureImage);
   }
 
-  public clearScanImage() {
-    this.captureImage = '';
-  }
-
   public invokeObservable(): Observable<any> {
     return this.trigger.asObservable();
   }
+
   public nextWebcamObservable(): Observable<any> {
     return this.nextWebcam.asObservable();
   }
 
-  fetchDetailsForCapturedImage() {
+  public onFetchDetailsForCapturedImage() {
     if (this.captureImage) {
-      var headers = this.requestHeader();
+      const headers = this.requestHeader();
+      
+      // const input = {
+      //   imagePath: 'C:\\Images\\500front.png',
+      // };
 
-      var input = {
-        imagePath: 'C:\\Images\\500front.png',
+      const input = {
+        imagePath: this.base64img,
       };
 
-      const req = this.http.post(this.localApiUrl, input, {
-        headers,
-        reportProgress: true,
-        responseType: 'json',
-      });
+      const req = this.http.post(this.localApiUrl, input, { headers, });
 
       return req.subscribe((data: any) => {
         if (data.success) {
@@ -71,16 +72,17 @@ export class WebCamComponent implements OnInit {
     }
   }
 
-  identifyCurrencyImageSide() {
-    if (this.captureImage) {
-      var headers = this.requestHeader();
-      var param = '?imagePath=' + 'C:\\Images\\500front.png';
+  public onClearScanImage() {
+    this.captureImage = '';
+    this.base64img = '';
+  }
 
-      const getReq = this.http.get(this.localApiUrl + param, {
-        headers,
-        reportProgress: true,
-        responseType: 'json',
-      });
+  public identifyCurrencyImageSide() {
+    if (this.captureImage) {
+      const headers = this.requestHeader();
+      const param = '?imagePath=' + this.input.imagePath;
+
+      const getReq = this.http.get(this.localApiUrl + param, { headers, });
 
       return getReq.subscribe((data: any) => {
         if (data.success) {
@@ -100,10 +102,10 @@ export class WebCamComponent implements OnInit {
     const headers = new HttpHeaders();
 
     headers.set('Content-Type', 'multipart/form-data');
-    headers.set('Accept', 'application/json');
+    // headers.set('Accept', 'application/json');
 
     headers.set('Access-Control-Allow-Methods', 'Content-Type');
-    headers.set('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
+    // headers.set('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
     return headers;
   }
 }

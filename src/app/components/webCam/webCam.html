@@ -31,7 +31,7 @@
             <ion-card-content>
               <webcam
                 [trigger]="invokeObservable()"
-                (imageCapture)="captureImg($event)"
+                (imageCapture)="onCaptureImgClick($event)"
               ></webcam>
             </ion-card-content>
           </ion-card>
@@ -62,15 +62,15 @@
       <div>
         <ion-button (click)="getSnapshot()"> Scan Currency </ion-button>
 
-        <ion-button (click)="saveImage($event)">
-          Save Image locally
-        </ion-button>
-
-        <ion-button (click)="fetchDetailsForCapturedImage()">
+        <ion-button (click)="onFetchDetailsForCapturedImage()">
           Process Image
         </ion-button>
 
-        <ion-button style="float: right" (click)="clearScanImage()">
+         <ion-button (click)="identifyCurrencyImageSide()">
+          Validate Image
+        </ion-button>
+
+        <ion-button style="float: right" (click)="onClearScanImage()">
           Celar scan
         </ion-button>
       </div>
