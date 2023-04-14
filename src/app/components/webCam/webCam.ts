@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IImageInput } from 'src/app/modal/imageInput';
-// import { ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-webcam',
@@ -17,12 +16,11 @@ export class WebCamComponent implements OnInit {
   private trigger = new Subject();
   private nextWebcam = new Subject();
 
-  private localApiUrl = 'https://localhost:7209/api/ImageAnalysis';
-  // private serverApiUrl = 'https://imageanalysisapi.azurewebsites.net/api/ImageAnalysis';
+  localApiUrl = 'https://localhost:7209/api/ImageAnalysis';
+  serverApiUrl = 'https://imageanalysisapi.azurewebsites.net/api/ImageAnalysis';
+  base64img: string;
 
-  private image;
-
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private toastr: ToastrService) {}
 
   ngOnInit() {}
   public getSnapshot(): void {
@@ -31,86 +29,81 @@ export class WebCamComponent implements OnInit {
   public captureImg(webcamImage: WebcamImage): void {
     this.webcamImage = webcamImage;
     this.captureImage = webcamImage?.imageAsDataUrl;
+    this.base64img = btoa(this.captureImage);
+  }
+
+  public clearScanImage() {
+    this.captureImage = '';
   }
 
   public invokeObservable(): Observable<any> {
     return this.trigger.asObservable();
   }
-
   public nextWebcamObservable(): Observable<any> {
     return this.nextWebcam.asObservable();
   }
 
-  saveImage(event: any) {
-    const target = event.target.files;
-    console.log(target);
-  }
+  fetchDetailsForCapturedImage() {
+    if (this.captureImage) {
+      var headers = this.requestHeader();
 
-  // saveImage(files: FileList) {
-  //   const file: File = files.item(0);
-  //   const myReader: FileReader = new FileReader();
+      var input = {
+        imagePath: 'C:\\Images\\500front.png',
+      };
 
-  //   myReader.onloadend = (e) => {
-  //     this.image = myReader.result;
-  //   };
+      const req = this.http.post(this.localApiUrl, input, {
+        headers,
+        reportProgress: true,
+        responseType: 'json',
+      });
 
-  //   myReader.readAsDataURL(file);
-  // }
+      return req.subscribe((data: any) => {
+        if (data.success) {
+          this.toastr.success(data.message);
+        }
 
-  public onFetchDetailsForCapturedImage() {
-    const imageURl = '/assets/icon/favicon.png';
-    const input: IImageInput = { imagePath: imageURl };
-
-    if (!this.captureImage) {
-      // this.toaster.error('Please scan image first. !!!');
+        if (!data.success) {
+          this.toastr.error(data.message);
+        }
+      });
     } else {
-      let convertedUrlBlob = null;
-      convertedUrlBlob = this.dataURItoBlob(this.captureImage);
-
-      const formData = new FormData();
-      formData.set('imagePath', convertedUrlBlob);
-
-      this.onPost(formData);
+      this.toastr.error('Please scan image first. !!!');
     }
   }
 
-  private dataURItoBlob(dataURI): Blob {
-    // convert base64/URLEncoded data component to raw binary data held in a string
-    let byteString;
-    if (dataURI.split(',')[0].indexOf('base64') >= 0) {
-      byteString = atob(dataURI.split(',')[1]);
+  identifyCurrencyImageSide() {
+    if (this.captureImage) {
+      var headers = this.requestHeader();
+      var param = '?imagePath=' + 'C:\\Images\\500front.png';
+
+      const getReq = this.http.get(this.localApiUrl + param, {
+        headers,
+        reportProgress: true,
+        responseType: 'json',
+      });
+
+      return getReq.subscribe((data: any) => {
+        if (data.success) {
+          this.toastr.success(data.message);
+        }
+
+        if (!data.success) {
+          this.toastr.error(data.message);
+        }
+      });
+    } else {
+      this.toastr.error('Please scan image first. !!!');
     }
-    // else {
-    //   byteString = unescape(dataURI.split(',')[1]);
-    // }
-
-    // separate out the mime component.
-    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-
-    // write the bytes of the string to a typed array
-    const ia = new Uint8Array(byteString.length);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-
-    return new Blob([ia], { type: mimeString }); // returns size and type of img.
   }
 
-  private onPost(input: any) {
-    const headers = new HttpHeaders({
-      contentType: 'application/json',
-      accept: 'undefined',
-    });
+  private requestHeader() {
+    const headers = new HttpHeaders();
 
-    const req = this.http.post(this.localApiUrl, input, { headers });
-    return req.subscribe((data: any) => {
-      if (data.success) {
-        //this.toaster.success(data.message);
-      }
+    headers.set('Content-Type', 'multipart/form-data');
+    headers.set('Accept', 'application/json');
 
-      if (!data.success) {
-        //this.toaster.error(data.message);
-      }
-    });
+    headers.set('Access-Control-Allow-Methods', 'Content-Type');
+    headers.set('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
+    return headers;
   }
 }
