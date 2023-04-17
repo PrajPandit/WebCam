@@ -31,7 +31,7 @@
             <ion-card-content>
               <webcam
                 [trigger]="invokeObservable()"
-                (imageCapture)="onCaptureImgClick($event)"
+                (imageCapture)="onCaptureImgClick($event);"
               ></webcam>
             </ion-card-content>
           </ion-card>
@@ -73,6 +73,12 @@
         <ion-button style="float: right" (click)="onClearScanImage()">
           Celar scan
         </ion-button>
+
+        <div>
+          <label for="filePicker">Choose or drag a file:</label><br>
+          <input type="file" id="filePicker" (change)="handleFileSelect($event)">
+      </div>
+      
       </div>
     </ion-title>
   </ion-toolbar>

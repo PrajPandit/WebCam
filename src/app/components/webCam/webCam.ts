@@ -31,7 +31,9 @@ export class WebCamComponent implements OnInit {
     'https://imageanalysisapi.azurewebsites.net/api/ImageAnalysis';
   private base64img: string = null;
 
-  constructor(private http: HttpClient, private toastr: ToastrService) {}
+  constructor(private http: HttpClient, private toastr: ToastrService) {
+  
+}
 
   ngOnInit() {}
 
@@ -41,14 +43,57 @@ export class WebCamComponent implements OnInit {
   public onCaptureImgClick(webcamImage: WebcamImage): void {
     this.webcamImage = webcamImage;
     this.captureImage = webcamImage?.imageAsDataUrl;
-    this.base64img = btoa(this.captureImage);
+    this.base64img = (webcamImage?.imageAsBase64);
+
     
-    var tempblob : Blob = this.dataURItoBlob(this.captureImage);
-    var blob = new Blob([tempblob], {type: "image/jpeg"});
-    //var tempFile = new File([tempblob], event.target.files[0]);
-    FileSaver.saveAs(blob, "1.jpg");
+    // var file = "C:\\Images\\500back.jpg";
+    // var reader = new FileReader();
+    // reader.readAsBinaryString(file);
+    
+    // var tempblob : Blob = this.dataURItoBlob(this.captureImage);
+    // var blob = new Blob([tempblob], {type: "image/jpeg"});
+    // //var tempFile = new File([tempblob], event.target.files[0]);
+    // FileSaver.saveAs(blob, "1.jpg");
     //this.savePicture(webcamImage);
   }
+
+  private base64textString:String="";
+  
+  handleFileSelect(evt){
+      var files = evt.target.files;
+      var file = files[0];
+    
+    if (files && file) {
+
+        var reader = new FileReader();
+
+        reader.onload =this._handleReaderLoaded.bind(this);
+
+        //reader.readAsBinaryString(file);
+        reader.readAsDataURL(file);
+    }
+  }
+  
+  _handleReaderLoaded(readerEvt) {
+     var binaryString = readerEvt.target.result;
+            this.base64textString= btoa(binaryString);
+            console.log(btoa(binaryString));
+    }
+  
+  public getBase64(event) {
+    let me = this;
+    let file = event.target.files[0];
+    //let file = "C:\\Images\\500back.jpg";
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      //me.modelvalue = reader.result;
+      console.log(reader.result);
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+ }
 
   public invokeObservable(): Observable<any> {
     return this.trigger.asObservable();
