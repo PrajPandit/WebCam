@@ -34,49 +34,27 @@ export class WebCamComponent implements OnInit {
   public onCaptureImgClick(webcamImage: WebcamImage): void {
     this.webcamImage = webcamImage;
     this.captureImage = webcamImage?.imageAsDataUrl;
-    this.base64img = webcamImage?.imageAsBase64;
-
-    // var file = "C:\\Images\\500back.jpg";
-    // var reader = new FileReader();
-    // reader.readAsBinaryString(file);
-
-    // var tempblob : Blob = this.dataURItoBlob(this.captureImage);
-    // var blob = new Blob([tempblob], {type: "image/jpeg"});
-    // //var tempFile = new File([tempblob], event.target.files[0]);
-    // FileSaver.saveAs(blob, "1.jpg");
-    //this.savePicture(webcamImage);
+    this.base64img = (webcamImage?.imageAsBase64);
   }
 
-  handleFileSelect(evt) {
-    let files = null;
-    files = evt.target.files;
-    const file = files[0];
+  // handleFileSelect(evt) {
+  //   let files = null;
+  //   files = evt.target.files;
+  //   const file = files[0];
 
-    if (files && file) {
-      const reader = new FileReader();
-      reader.onload = this.handleReaderLoaded.bind(this);
-      //// reader.readAsBinaryString(file);
-      reader.readAsDataURL(file);
-    }
-  }
+  //   if (files && file) {
+  //     const reader = new FileReader();
+  //     reader.onload = this.handleReaderLoaded.bind(this);
+  //     //// reader.readAsBinaryString(file);
+  //     reader.readAsDataURL(file);
+  //   }
+  // }
 
-  handleReaderLoaded(readerEvt) {
-    const binaryString = readerEvt.target.result;
-    this.base64textString = btoa(binaryString);
-    console.log(btoa(this.base64textString));
-  }
-
-  public getBase64(event) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      console.log(reader.result);
-    };
-    reader.onerror = (error) => {
-      console.log('Error: ', error);
-    };
-  }
+  // handleReaderLoaded(readerEvt) {
+  //   const binaryString = readerEvt.target.result;
+  //   this.base64textString = btoa(binaryString);
+  //   console.log(btoa(this.base64textString));
+  // }
 
   public invokeObservable(): Observable<any> {
     return this.trigger.asObservable();
@@ -115,31 +93,6 @@ export class WebCamComponent implements OnInit {
   public onClearScanImage() {
     this.captureImage = '';
     this.base64img = '';
-  }
-
-  public identifyCurrencyImageSide() {
-    if (this.captureImage) {
-      const headers = this.requestHeader();
-      // const param = '?imagePath=' + this.base64img;
-
-      // const input = {
-      //   imagePath: this.base64img,
-      // };
-
-      const getReq = this.http.get(this.localApiUrl + this.base64img, { headers });
-
-      return getReq.subscribe((data: any) => {
-        if (data.success) {
-          this.toastr.success(data.message);
-        }
-
-        if (!data.success) {
-          this.toastr.error(data.message);
-        }
-      });
-    } else {
-      this.toastr.error('Please scan image first. !!!');
-    }
   }
 
   private requestHeader() {
