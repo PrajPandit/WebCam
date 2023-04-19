@@ -37,25 +37,6 @@ export class WebCamComponent implements OnInit {
     this.base64img = (webcamImage?.imageAsBase64);
   }
 
-  // handleFileSelect(evt) {
-  //   let files = null;
-  //   files = evt.target.files;
-  //   const file = files[0];
-
-  //   if (files && file) {
-  //     const reader = new FileReader();
-  //     reader.onload = this.handleReaderLoaded.bind(this);
-  //     //// reader.readAsBinaryString(file);
-  //     reader.readAsDataURL(file);
-  //   }
-  // }
-
-  // handleReaderLoaded(readerEvt) {
-  //   const binaryString = readerEvt.target.result;
-  //   this.base64textString = btoa(binaryString);
-  //   console.log(btoa(this.base64textString));
-  // }
-
   public invokeObservable(): Observable<any> {
     return this.trigger.asObservable();
   }

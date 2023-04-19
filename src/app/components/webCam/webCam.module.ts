@@ -12,7 +12,7 @@ import { WebcamModule } from 'ngx-webcam';
     CommonModule,
     FormsModule,
     WebCamRoutingModule,
-    WebcamModule
+    WebcamModule,
   ],
   declarations: [WebCamComponent]
 })
