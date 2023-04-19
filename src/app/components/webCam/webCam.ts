@@ -14,6 +14,10 @@ import { ToastrService } from 'ngx-toastr';
 export class WebCamComponent implements OnInit {
   public webcamImage: WebcamImage;
   public captureImage = '';
+  public informationOfCurrency: string[] = [];
+  public sideOfNote: string = null;
+  public validationSuccess = false;
+
   private trigger = new Subject();
   private nextWebcam = new Subject();
   // private input: IImageInput = { imagePath: 'C:\\Images\\500back.jpg' };
@@ -66,12 +70,16 @@ export class WebCamComponent implements OnInit {
   }
 
   private processResult(result: any): void {
+    this.validationSuccess = result.success;
     if (!result.success) {
       this.toastr.error(result.message);
     }
 
     this.toastr.success(result.message);
-    this.toastr.success(result.info);
+    this.toastr.success(result.sideOfNote);
+    this.toastr.info(result.informationAboutNote);
+    this.sideOfNote = result.sideOfNote;
+    this.informationOfCurrency = result.informationAboutNote;
   }
 
   private requestHeader() {

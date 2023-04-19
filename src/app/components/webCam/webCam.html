@@ -19,6 +19,13 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
+  <ion-grid>
+    <p *ngIf="validationSuccess">
+      validation of: {{sideOfNote}} - side of note was completed !! Please scan
+      other side
+    </p>
+  </ion-grid>
+
   <ion-card class="ion-padding">
     <ion-grid>
       <ion-row>
@@ -52,6 +59,24 @@
             </ion-card-content>
           </ion-card>
         </ion-col>
+
+        <ion-col>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>
+                Your validations / text of currency will be shown here...
+              </ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content
+              *ngFor="let item of informationOfCurrency"
+              height="50%"
+              width="auto"
+            >
+              <p>{{item}}</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
       </ion-row>
     </ion-grid>
   </ion-card>
@@ -74,7 +99,6 @@
           <label for="filePicker">Choose or drag a file:</label><br>
           <input type="file" id="filePicker" (change)="handleFileSelect($event)">
       </div> -->
-
       </div>
     </ion-title>
   </ion-toolbar>
