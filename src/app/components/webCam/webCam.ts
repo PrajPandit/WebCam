@@ -73,7 +73,8 @@ export class WebCamComponent implements OnInit {
     this.validationSuccess = result.success;
     if (!result.success) {
       this.toastr.error(result.message);
-    }
+      return;
+    } 
 
     this.toastr.success(result.message);
     this.toastr.success(result.sideOfNote);
