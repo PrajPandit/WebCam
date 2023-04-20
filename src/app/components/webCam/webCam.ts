@@ -57,7 +57,9 @@ export class WebCamComponent implements OnInit {
 
     const headers = this.requestHeader();
     const input = { imagePath: this.base64img };
-    const serviceRequest = this.http.post(this.localApiUrl, input, { headers });
+    const serviceRequest = this.http.post(this.localApiUrl, input, {
+      headers,
+    });
 
     serviceRequest.subscribe((result) => {
       this.processResult(result);
@@ -70,25 +72,26 @@ export class WebCamComponent implements OnInit {
   }
 
   private processResult(result: any): void {
+    this.toastr.clear();
     this.validationSuccess = result.success;
     if (!result.success) {
       this.toastr.error(result.message);
       return;
-    } 
+    }
 
     this.toastr.success(result.message);
     this.toastr.success(result.sideOfNote);
-    this.toastr.info(result.informationAboutNote);
+    // this.toastr.info(result.informationAboutNote);
     this.sideOfNote = result.sideOfNote;
-    this.informationOfCurrency = result.informationAboutNote;
+    // this.informationOfCurrency = result.informationAboutNote;
   }
 
   private requestHeader() {
     const headers = new HttpHeaders();
     headers.set('Content-Type', 'multipart/form-data');
-    // headers.set('Accept', 'application/json');
+    //  headers.set('Accept', 'application/json');
     headers.set('Access-Control-Allow-Methods', 'Content-Type');
-    //  headers.set('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
+    // headers.set('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
     return headers;
   }
 
